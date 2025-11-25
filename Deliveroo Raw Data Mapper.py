@@ -5,7 +5,7 @@ import io
 st.title("Deliveroo Raw Data Mapper")
 
 st.write("""
-          1. Export the previous 2 weeks worth of data
+          1. Export data
           2. Drop the file in the below box, it should then give you the output file in your downloads
           3. Standard bits - Check data vs previous week, remove data already reported
           4. Done.
