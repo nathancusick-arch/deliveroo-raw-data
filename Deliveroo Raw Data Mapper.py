@@ -17,7 +17,7 @@ today_str = today.strftime("%d.%m.%y")
 # ============================================================
 
 st.write("""
-1. Upload the latest export file
+1. Export data and upload export file
 2. Upload the last Deliveroo Raw Data file
 3. The tool will automatically remove previously reported audits
 4. Download the updated Deliveroo Raw Data file
