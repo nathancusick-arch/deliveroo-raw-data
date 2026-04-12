@@ -70,7 +70,7 @@ COLUMN_MAP = {
     "Please use this space to explain anything unusual about your visit or to clarify any detail of your report:": "Please use this space to explain anything unusual about your visit or to clarify any detail of your report:",
     "Has the same rider delivered an age-restricted product to you and asked you for ID within the last month?": "Has the same rider delivered an age-restricted product to you and asked you for ID within the last month?",
     "Please describe the doorstep transaction:": "Please describe the doorstep transaction:",
-    "Please confirm below whether or not you were asked for ID:": "Please confirm below whether or not you were asked for ID?"
+    "Please confirm below whether or not you were asked for ID:": "Please confirm below whether or not you were asked for ID:"
 }
 
 # ============================================================
