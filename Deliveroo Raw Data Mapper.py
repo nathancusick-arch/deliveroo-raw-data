@@ -3,7 +3,7 @@ import pandas as pd
 import io
 from datetime import datetime, timedelta
 
-st.title("Deliveroo Raw Data Generator")
+st.title("Deliveroo Raw Data Mapper")
 
 # ============================================================
 # DATE LOGIC
@@ -16,9 +16,9 @@ today_str = today.strftime("%d.%m.%y")
 
 st.write(f"""
 1. Upload the latest export file
-2. Upload the last Deliveroo Raw Data file
+2. Upload last week's Deliveroo Raw Data file
 3. The tool will automatically remove previously reported audits
-4. Download the updated Deliveroo Raw Data file
+4. Download this week's Deliveroo Raw Data file
 """)
 
 # ============================================================
@@ -142,6 +142,3 @@ if export_file is not None and previous_file is not None:
         file_name=f"Deliveroo Raw Data {today_str}.csv",
         mime="text/csv"
     )
-
-elif export_file is not None or previous_file is not None:
-    st.warning("Please upload both files to generate the report.")
