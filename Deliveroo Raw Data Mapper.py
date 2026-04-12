@@ -1,24 +1,26 @@
 import streamlit as st
 import pandas as pd
 import io
-from datetime import datetime, timedelta
+from datetime import datetime
 
-st.title("Deliveroo Raw Data Mapper")
+st.title("Deliveroo Raw Data Generator")
 
 # ============================================================
 # DATE LOGIC
 # ============================================================
 
 today = datetime.today()
-last_monday = today - timedelta(days=today.weekday() + 7)
-last_monday_str = last_monday.strftime("%d.%m.%y")
 today_str = today.strftime("%d.%m.%y")
 
-st.write(f"""
+# ============================================================
+# INSTRUCTIONS
+# ============================================================
+
+st.write("""
 1. Upload the latest export file
-2. Upload last week's Deliveroo Raw Data file
+2. Upload the last Deliveroo Raw Data file
 3. The tool will automatically remove previously reported audits
-4. Download this week's Deliveroo Raw Data file
+4. Download the updated Deliveroo Raw Data file
 """)
 
 # ============================================================
@@ -98,10 +100,28 @@ def map_value(row, mapping):
 # ============================================================
 
 export_file = st.file_uploader("Upload audits_basic_data_export.csv", type=["csv"])
-previous_file = st.file_uploader(f"Upload Deliveroo Raw Data {last_monday_str}.csv", type=["csv"])
+previous_file = st.file_uploader("Upload the most recent Deliveroo Raw Data file", type=["csv"])
 
 # ============================================================
-# MAIN LOGIC (ONLY RUN IF BOTH FILES PROVIDED)
+# DETERMINE OUTPUT FILE NAME
+# ============================================================
+
+def get_output_filename(previous_filename):
+    try:
+        if previous_filename[2:4] == ". ":
+            # Monthly format detected
+            prev_month = datetime.today().replace(day=1)
+            prev_month = prev_month.replace(month=prev_month.month - 1 if prev_month.month > 1 else 12,
+                                            year=prev_month.year if prev_month.month > 1 else prev_month.year - 1)
+            return prev_month.strftime("%m. Deliveroo Raw Data %B %Y.csv")
+        else:
+            # Weekly format
+            return f"Deliveroo Raw Data {today_str}.csv"
+    except:
+        return f"Deliveroo Raw Data {today_str}.csv"
+
+# ============================================================
+# MAIN LOGIC
 # ============================================================
 
 if export_file is not None and previous_file is not None:
@@ -136,9 +156,11 @@ if export_file is not None and previous_file is not None:
     final_df.to_csv(output_buffer, index=False, encoding="utf-8-sig")
     output_buffer.seek(0)
 
+    output_filename = get_output_filename(previous_file.name)
+
     st.download_button(
         label="Download Deliveroo Raw Data CSV",
         data=output_buffer,
-        file_name=f"Deliveroo Raw Data {today_str}.csv",
+        file_name=output_filename,
         mime="text/csv"
     )
