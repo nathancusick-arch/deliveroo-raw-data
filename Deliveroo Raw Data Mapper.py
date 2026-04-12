@@ -3,7 +3,7 @@ import pandas as pd
 import io
 from datetime import datetime, timedelta
 
-st.title("Deliveroo Raw Data Mapper")
+st.title("Deliveroo Raw Data Generator")
 
 # ============================================================
 # DATE LOGIC
@@ -16,9 +16,9 @@ today_str = today.strftime("%d.%m.%y")
 
 st.write(f"""
 1. Upload the latest export file
-2. Upload last week's Deliveroo Raw Data file
+2. Upload the last Deliveroo Raw Data file
 3. The tool will automatically remove previously reported audits
-4. Download this week's Deliveroo Raw Data file
+4. Download the updated Deliveroo Raw Data file
 """)
 
 # ============================================================
