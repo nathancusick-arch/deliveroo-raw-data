@@ -38,10 +38,7 @@ COLUMN_MAP = {
     "TIME OF VISIT": "time_of_visit",
     "RESULT": "primary_result",
     "What is your age?": "What is your age?",
-    "What is the name of the restaurant/shop you made the purchase from?": [
-        "What is the name of the restaurant/shop you made the purchase from?",
-        "What is the name of the shop you made the purchase from?"
-    ],
+    "What is the name of the restaurant/shop you made the purchase from?": "__RETAILER_NAME__",
     "Please enter the  11-digit order number:": "Please enter the  11-digit order number:",
     "Please give details of the product that you purchased:": [
         "Please give details of the alcohol that you purchased:",
@@ -79,9 +76,33 @@ COLUMN_MAP = {
 # MAPPING FUNCTION
 # ============================================================
 
+RETAILER_QUESTION = "Which retailer did you place your order with?"
+SHOP_NAME_QUESTIONS = [
+    "What is the name of the restaurant/shop you made the purchase from?",
+    "What is the name of the shop you made the purchase from?"
+]
+
+def map_retailer_name(row):
+    retailer = str(row.get(RETAILER_QUESTION, "")).strip()
+
+    # The free-text shop question is only answered when "Other" is selected.
+    # Older exports do not contain the retailer question, so they continue to
+    # fall back to the original shop-name question.
+    if retailer and retailer.casefold() != "other":
+        return retailer
+
+    for col in SHOP_NAME_QUESTIONS:
+        value = str(row.get(col, "")).strip()
+        if value:
+            return value
+
+    return ""
+
 def map_value(row, mapping):
     if mapping is None:
         return ""
+    if mapping == "__RETAILER_NAME__":
+        return map_retailer_name(row)
     if isinstance(mapping, list):
         vals = []
         for col in mapping:
